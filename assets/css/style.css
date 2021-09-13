@@ -1,20 +1,31 @@
+:root{
+    --primary-normal: #DB524D;
+    --primary-light: #DF645F;
+    --secondary: white;
+    --tertiary: black;
+
+}
 *{
     margin: 0;
     padding: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
     text-align: center;
 }
 body{
-    background: red;
+    background: var(--primary-normal);
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.view{
-    background: white;
+.card{
+    background: var(--secondary);
     width: 500px;
     margin-top: 10%;
     padding: 100px 0;
+    border-radius: 5%;
+    -webkit-box-shadow: 50px 50px 35px 15px rgba(0,0,0,0.36);
+    -moz-box-shadow: 50px 50px 35px 15px rgba(0,0,0,0.36);
+    box-shadow: 50px 50px 35px 15px rgba(0,0,0,0.36);
 }
 .view > div{
     margin: 15px auto;
@@ -33,7 +44,7 @@ body{
     background: grey;
 }
 .progress-bar .progress{
-    background: green;
+    background: var(--primary-normal);
     height: 100%;
 }
 #percentage{
