@@ -1,12 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('dom content loaded!');
-    
     let p = new Pomodoro();
-    //p.countAtZero(25,13);
-    p.setPercentage(41);
 
+    pomodoro = document.querySelector('#pomodoro');
+    pomodoro.addEventListener('click', () => {
+        p.countAtZero(25,30);
+    });
 
+    short = document.querySelector('#short');
+    short.addEventListener('click', () => {
+        p.countAtZero(5,0);
+    });
+
+    long = document.querySelector('#long');
+    long.addEventListener('click', () => {
+        p.countAtZero(15,0);
+    });
 });
+
 
 class Pomodoro{
     constructor(pomodoro_time=null, short_time=null, long_time=null){
@@ -17,6 +27,10 @@ class Pomodoro{
         this.setTime('00:00');
         this.setAction('ready to action!')
         this.setPercentage(0);
+    }
+
+    start(min,sec){
+        this.countAtZero(min,sec);
     }
 
     setTime(timeStamp){
@@ -36,7 +50,7 @@ class Pomodoro{
         let progress_bar = document.querySelector('#progress');
 
         percentage = `${percentage}%`
-        
+
         progress_bar.setAttribute('style', `width: ${percentage};`);
         percentage_position.innerHTML = percentage;
     }
@@ -60,7 +74,6 @@ class Pomodoro{
         setInterval(() => {
             time = time - 1000;
             this.update(time);
-            
         }, 1000);
         
     }
