@@ -63,7 +63,7 @@ body{
     margin: auto;
     background: grey;
 }
-.progress-bar .progress{
+#progress{
     background: var(--primary-normal);
     height: 100%;
 }
