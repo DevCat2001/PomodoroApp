@@ -10,6 +10,7 @@
     padding: 0;
     font-family: 'Poppins', sans-serif;
     text-align: center;
+    transition: 0.392s;
 }
 body{
     background: var(--primary-normal);
@@ -21,21 +22,40 @@ body{
     background: var(--secondary);
     width: 500px;
     margin-top: 10%;
-    padding: 100px 0;
+    padding: 50px 0 100px;
     border-radius: 5%;
     -webkit-box-shadow: 50px 50px 35px 15px rgba(0,0,0,0.36);
     -moz-box-shadow: 50px 50px 35px 15px rgba(0,0,0,0.36);
     box-shadow: 50px 50px 35px 15px rgba(0,0,0,0.36);
 }
-.view > div{
+.card > div{
     margin: 15px auto;
+}
+.top-card{
+    display: flex;
+    justify-content: space-evenly;
+    width: 450px;
+    margin: auto;
+}
+.button{
+    padding: 20px;
+    width: -webkit-fill-available;
+    color: var(--primary-normal);
+    font-weight: bold;
+    font-size: large;
+}
+.button:hover{
+    color: var(--secondary);
+    background: var(--primary-light);
 }
 #time{
     font-size: 120px;
     font-weight: bold;
 }
-.action{
+#action{
     font-size: x-large;
+    color: var(--primary-normal);
+    font-weight: bold;
 }
 .progress-bar{
     width: 70%;
