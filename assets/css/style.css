@@ -3,6 +3,7 @@
     --primary-light: #DF645F;
     --secondary: white;
     --tertiary: black;
+    --transition-time: 0.392s;
 
 }
 *{
@@ -10,7 +11,7 @@
     padding: 0;
     font-family: 'Poppins', sans-serif;
     text-align: center;
-    transition: 0.392s;
+    transition: var(--transition-time);
 }
 body{
     background: var(--primary-normal);
@@ -69,4 +70,20 @@ body{
 }
 #percentage{
     font-size: xx-large;
+} 
+#launch{
+    color: var(--secondary);
+    background: var(--primary-normal);
+    display: inline-block;
+    margin: 10px 50px;
+}
+#launch:hover{
+    color: var(--primary-light);
+    background: var(--secondary);
+    transition: var(--transition-time);
+    font-size: x-large;
+
+}
+#error-zone{
+    color: var(--primary-normal);
 }

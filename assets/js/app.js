@@ -1,22 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
     let p = new Pomodoro();
 
-    pomodoro = document.querySelector('#pomodoro');
+    let pomodoro = document.querySelector('#pomodoro');
     pomodoro.addEventListener('click', () => {
-        p.countAtZero(25,30);
+        launchPomodoro(p,'pomodoro');
     });
 
-    short = document.querySelector('#short');
+    let short = document.querySelector('#short');
     short.addEventListener('click', () => {
-        p.countAtZero(5,0);
+        launchPomodoro(p,'short');
     });
 
-    long = document.querySelector('#long');
+    let long = document.querySelector('#long');
     long.addEventListener('click', () => {
-        p.countAtZero(15,0);
+        launchPomodoro(p,'long');
     });
 });
 
+function launchPomodoro(pomodoro_class,timer_name){
+    let minute;
+    let seconds;
+
+    switch (timer_name) {
+        case 'pomodoro':
+            minute=25;
+            seconds=30;
+            break;
+        case 'short':
+            minute=5;
+            seconds=0;
+            break;
+        case 'long':
+            minute=15;
+            seconds=0;
+            break;
+        default:
+            let error_check=true;
+            break;
+        
+    }
+
+    let launch = document.querySelector('#launch')
+    launch.addEventListener('click',()=>{
+        if(error_check){
+            let error_message = 'Scegli uno dei bottoni in alto';
+            document.querySelector('#error_zone').innerHTML = error_message;
+        }else{
+            pomodoro_class.countAtZero(minute,seconds,false);
+            launch.innerHTML = 'stop'
+            launch.addEventListener('click',()=>{
+                pomodoro_class.countAtZero(0,0,true);
+            });
+        }
+    });
+}
 
 class Pomodoro{
     constructor(pomodoro_time=null, short_time=null, long_time=null){
@@ -27,10 +64,6 @@ class Pomodoro{
         this.setTime('00:00');
         this.setAction('ready to action!')
         this.setPercentage(0);
-    }
-
-    start(min,sec){
-        this.countAtZero(min,sec);
     }
 
     setTime(timeStamp){
@@ -59,14 +92,16 @@ class Pomodoro{
         let sec = time/1000;
         let min = Math.floor(sec/60);
         sec = sec - (min*60);
-        time = `${min}:${sec}`
+        min<10 ? min='0'+min : console.log('hi');
+        sec<10 ? sec='0'+sec : console.log('hello');
+        time = `${min}:${sec}`;
         this.setTime(time);
         /*this.setPercentage(
             percentageCalc(time)
         );*/
     }
     
-    countAtZero(minute,seconds){
+    countAtZero(minute,seconds,stop){
         let time = 1000*((minute * 60) + seconds);
         console.log('minute:'+minute+'\n'+'seconds'+seconds);
         console.log('time:'+time+'ms');
@@ -75,6 +110,10 @@ class Pomodoro{
             time = time - 1000;
             this.update(time);
         }, 1000);
+        if (stop==true) {
+            clearInterval();
+            this.update(time);
+        }
         
     }
 }
