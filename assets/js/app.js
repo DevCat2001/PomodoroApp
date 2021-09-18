@@ -20,33 +20,37 @@ document.addEventListener('DOMContentLoaded', () => {
 function launchPomodoro(pomodoro_class,timer_name){
     let minute;
     let seconds;
+    let error_check=true;
 
     switch (timer_name) {
         case 'pomodoro':
             minute=25;
             seconds=30;
+            error_check=false;
             break;
         case 'short':
             minute=5;
             seconds=0;
+            error_check=false;
             break;
         case 'long':
             minute=15;
             seconds=0;
+            error_check=false;
             break;
         default:
-            let error_check=true;
+            error_check=true;
             break;
-        
     }
 
     let launch = document.querySelector('#launch')
     launch.addEventListener('click',()=>{
         if(error_check){
             let error_message = 'Scegli uno dei bottoni in alto';
+            console.log(error_message);
             document.querySelector('#error_zone').innerHTML = error_message;
         }else{
-            pomodoro_class.countAtZero(minute,seconds,false);
+            pomodoro_class.countAtZero(minute,seconds,error_check);
             launch.innerHTML = 'stop'
             launch.addEventListener('click',()=>{
                 pomodoro_class.countAtZero(0,0,true);
@@ -64,6 +68,8 @@ class Pomodoro{
         this.setTime('00:00');
         this.setAction('ready to action!')
         this.setPercentage(0);
+
+        this.launch = document.querySelector('#launch');
     }
 
     setTime(timeStamp){
@@ -92,8 +98,12 @@ class Pomodoro{
         let sec = time/1000;
         let min = Math.floor(sec/60);
         sec = sec - (min*60);
-        min<10 ? min='0'+min : console.log('hi');
-        sec<10 ? sec='0'+sec : console.log('hello');
+        if (min<10) {
+            min='0'+min
+        }
+        if (sec<10) {
+            sec='0'+sec
+        }
         time = `${min}:${sec}`;
         this.setTime(time);
         /*this.setPercentage(
@@ -106,10 +116,13 @@ class Pomodoro{
         console.log('minute:'+minute+'\n'+'seconds'+seconds);
         console.log('time:'+time+'ms');
         
-        setInterval(() => {
-            time = time - 1000;
-            this.update(time);
-        }, 1000);
+        
+        if (stop==false) {
+            setInterval(() => {
+                time = time - 1000;
+                this.update(time);
+            }, 1000);
+        }
         if (stop==true) {
             clearInterval();
             this.update(time);

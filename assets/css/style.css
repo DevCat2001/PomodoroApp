@@ -48,6 +48,8 @@ body{
 .button:hover{
     color: var(--secondary);
     background: var(--primary-light);
+    cursor: pointer;
+    user-select: none;
 }
 #time{
     font-size: 120px;
