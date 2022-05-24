@@ -1,136 +1,147 @@
-document.addEventListener('DOMContentLoaded', () => {
-    let p = new Pomodoro();
+document.addEventListener("DOMContentLoaded", () => {
+  launch_button = document.getElementById("launch");
+  error_message_box = document.getElementById("error-zone");
 
-    let pomodoro = document.querySelector('#pomodoro');
-    pomodoro.addEventListener('click', () => {
-        launchPomodoro(p,'pomodoro');
-    });
+  let p = new Pomodoro(launch_button, error_message_box);
 
-    let short = document.querySelector('#short');
-    short.addEventListener('click', () => {
-        launchPomodoro(p,'short');
-    });
-
-    let long = document.querySelector('#long');
-    long.addEventListener('click', () => {
-        launchPomodoro(p,'long');
-    });
+  document.querySelectorAll("input[name='interval']")
+      .forEach((item) => {
+          item.addEventListener('change', (event) => {
+            p.resetTimer(event.target.id)
+          });
+        });
 });
 
-function launchPomodoro(pomodoro_class,timer_name){
-    let minute;
-    let seconds;
-    let error_check=true;
+class Pomodoro {
+  constructor(launch_button, error_message_box) {
+    this.setTime("00:00");
+    this.setAction("Ready to action!");
+    this.setPercentage(0);
 
-    switch (timer_name) {
-        case 'pomodoro':
-            minute=25;
-            seconds=30;
-            error_check=false;
-            break;
-        case 'short':
-            minute=5;
-            seconds=0;
-            error_check=false;
-            break;
-        case 'long':
-            minute=15;
-            seconds=0;
-            error_check=false;
-            break;
-        default:
-            error_check=true;
-            break;
-    }
+    this.default_time = 25;
+    this.short_time = 5;
+    this.long_time = 15;
 
-    let launch = document.querySelector('#launch')
-    launch.addEventListener('click',()=>{
-        if(error_check){
-            let error_message = 'Scegli uno dei bottoni in alto';
-            console.log(error_message);
-            document.querySelector('#error_zone').innerHTML = error_message;
-        }else{
-            pomodoro_class.countAtZero(minute,seconds,error_check);
-            launch.innerHTML = 'stop'
-            launch.addEventListener('click',()=>{
-                pomodoro_class.countAtZero(0,0,true);
-            });
-        }
+    this.minutes = this.default_time;
+    this.seconds = 0;
+    this.timer_started = false;
+
+    launch_button.addEventListener("click", this.toggleStartStop());
+  }
+
+  setIntervalTime(minutes) {
+    this.minutes = minutes;
+  }
+
+  stopTimer() {
+    this.startTimer(this.minutes, this.seconds, this.timer_started);
+    this.launch_button.innerHTML = "stop";
+    this.launch_button.addEventListener("click", () => {
+      this.startTimer(0, false);
     });
-}
+  }
 
-class Pomodoro{
-    constructor(pomodoro_time=null, short_time=null, long_time=null){
-        this.pomodoro_time = pomodoro_time ?? 25;
-        this.short_time = short_time ?? 5;
-        this.long_time = long_time ?? 15;
-      
-        this.setTime('00:00');
-        this.setAction('ready to action!')
-        this.setPercentage(0);
+  startTimer(minutes, stopSignal) {
+    let seconds = 0;
+    let time = 1000 * (minutes * 60 + seconds);
+    console.log("minutes:" + minutes + "\n" + "seconds" + seconds);
+    console.log("time:" + time + "ms");
 
-        this.launch = document.querySelector('#launch');
+    if (stopSignal === true) {
+      clearInterval();
+      this.update(time);
     }
-
-    setTime(timeStamp){
-        let time_position = document.querySelector('#time');
-        time_position.innerHTML = timeStamp;
+    if (stopSignal === false) {
+      setInterval(() => {
+        time = time - 1000;
+        this.update(time);
+      }, 1000);
     }
+  }
 
-    setAction(action_name){
-        let action_position = document.querySelector('#action');
-        action_position.innerHTML = action_name;
+  toggleStartStop() {
+    if (this.timer_started === true) {
+      this.stopTimer();
+    } else {
+      this.startTimer(0, 0, true);
     }
+  }
 
-    setPercentage(percentage){
-        percentage=percentage.toString();
-
-        let percentage_position = document.querySelector('#percentage');
-        let progress_bar = document.querySelector('#progress');
-
-        percentage = `${percentage}%`
-
-        progress_bar.setAttribute('style', `width: ${percentage};`);
-        percentage_position.innerHTML = percentage;
+  resetTimer(timer_name) {
+    switch (timer_name) {
+      case "default":
+        this.minutes = this.default_time;
+        break;
+      case "short":
+        this.minutes = this.short_time;
+        break;
+      case "long":
+        this.minutes = this.long_time;
+        break;
+      default:
+        const error_message = `Reset timer failed, no case \"${timer_name}\"`;
+        console.log(error_message);
+        break;
     }
+  }
 
-    update(time){
-        let sec = time/1000;
-        let min = Math.floor(sec/60);
-        sec = sec - (min*60);
-        if (min<10) {
-            min='0'+min
-        }
-        if (sec<10) {
-            sec='0'+sec
-        }
-        time = `${min}:${sec}`;
-        this.setTime(time);
-        /*this.setPercentage(
+  setTime(timeStamp) {
+    let time_position = document.querySelector("#time");
+    time_position.innerHTML = timeStamp;
+  }
+
+  setAction(action_name) {
+    let action_position = document.querySelector("#action");
+    action_position.innerHTML = action_name;
+  }
+
+  setPercentage(percentage) {
+    percentage = percentage.toString();
+
+    let percentage_position = document.querySelector("#percentage");
+    let progress_bar = document.querySelector("#progress");
+
+    percentage = `${percentage}%`;
+
+    progress_bar.setAttribute("style", `width: ${percentage};`);
+    percentage_position.innerHTML = percentage;
+  }
+
+  update(time) {
+    let sec = time / 1000;
+    let min = Math.floor(sec / 60);
+    sec = sec - min * 60;
+    if (min < 10) {
+      min = "0" + min;
+    }
+    if (sec < 10) {
+      sec = "0" + sec;
+    }
+    time = `${min}:${sec}`;
+    this.setTime(time);
+    /*this.setPercentage(
             percentageCalc(time)
         );*/
+  }
+
+  startTimer(minute, seconds, stopSignal) {
+    let time = 1000 * (minute * 60 + seconds);
+    console.log("minute:" + minute + "\n" + "seconds" + seconds);
+    console.log("time:" + time + "ms");
+
+    if (stopSignal === false) {
+      clearInterval();
+      this.update(time);
     }
-    
-    countAtZero(minute,seconds,stop){
-        let time = 1000*((minute * 60) + seconds);
-        console.log('minute:'+minute+'\n'+'seconds'+seconds);
-        console.log('time:'+time+'ms');
-        
-        
-        if (stop==false) {
-            setInterval(() => {
-                time = time - 1000;
-                this.update(time);
-            }, 1000);
-        }
-        if (stop==true) {
-            clearInterval();
-            this.update(time);
-        }
-        
+    if (stopSignal === true) {
+      setInterval(() => {
+        time = time - 1000;
+        this.update(time);
+      }, 1000);
     }
+  }
 }
 
 function percentageCalc(actual_time) {
-    return ((actual_time*100)/0);
+  return (actual_time * 100) / 0;
 }

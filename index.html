@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,22 +12,28 @@
     <link rel="shortcut icon" href="assets/img/pomodoro.svg">
     <title>Pomodoro Clock</title>
 </head>
+
 <body>
     <div class="card">
-        <div class="top-card">
-            <span class="button" id="pomodoro">Pomodoro</span>
-            <span class="button" id="short">Short</span>
-            <span class="button" id="long">Long</span>
+        <span class="selection-header">Select Interval:</span>
+        <div class="toggle">
+            <input class="button" autocomplete="off" type="radio" id="default" name="interval">
+            <label for="default">25 Minutes</label>
+            <input class="button" autocomplete="off" type="radio" id="long" name="interval">
+            <label for="long">15 Minutes</label>
+            <input class="button" autocomplete="off" type="radio" id="short" name="interval">
+            <label for="short">5 Minutes</label>
         </div>
-       <div id="time"></div>
-       <div id="action">Pomodoro</div>
-       <div class="progress-bar">
-           <div id="progress"></div>
-       </div>
-       <div id="percentage">44%</div>
-       <span class="button" id="launch">Start</span>
-       <span id="error-zone"></span>
+        <div id="time"></div>
+        <div id="action">Pomodoro</div>
+        <div class="progress-bar">
+            <div id="progress"></div>
+        </div>
+        <div id="percentage">44%</div>
+        <button class="button" id="launch">Start</button>
+        <span id="error-zone"></span>
     </div>
 </body>
+
 </html>
 <script src="assets/js/app.js"></script>
