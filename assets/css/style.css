@@ -1,91 +1,143 @@
-:root{
+:root {
     --primary-normal: #DB524D;
     --primary-light: #DF645F;
     --secondary: white;
     --tertiary: black;
     --transition-time: 0.392s;
-
 }
-*{
+
+* {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
     text-align: center;
     transition: var(--transition-time);
 }
-body{
+
+body {
     background: var(--primary-normal);
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.card{
+
+.card {
     background: var(--secondary);
     width: 500px;
     margin-top: 10%;
     padding: 50px 0 100px;
     border-radius: 5%;
-    -webkit-box-shadow: 50px 50px 35px 15px rgba(0,0,0,0.36);
-    -moz-box-shadow: 50px 50px 35px 15px rgba(0,0,0,0.36);
-    box-shadow: 50px 50px 35px 15px rgba(0,0,0,0.36);
+    -webkit-box-shadow: 50px 50px 35px 15px rgba(0, 0, 0, 0.36);
+    -moz-box-shadow: 50px 50px 35px 15px rgba(0, 0, 0, 0.36);
+    box-shadow: 50px 50px 35px 15px rgba(0, 0, 0, 0.36);
 }
-.card > div{
+
+.card>div {
     margin: 15px auto;
 }
-.top-card{
+
+.selection-header {
+    color: var(--primary-light);
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+input[type="radio"]:checked {
+    background: var(--primary-light);
+}
+
+.toggle {
     display: flex;
     justify-content: space-evenly;
     width: 450px;
     margin: auto;
 }
-.button{
-    padding: 20px;
-    width: -webkit-fill-available;
+
+.button {
+    padding: 1rem;
     color: var(--primary-normal);
     font-weight: bold;
     font-size: large;
+    border-color: var(--primary-light);
+    border-width: 1px;
+    border-style: solid;
 }
-.button:hover{
+
+.toggle .button + label {
+    padding: 1rem;
+    color: var(--primary-normal);
+    font-weight: bold;
+    font-size: large;
+    border-color: var(--primary-light);
+    border-width: 1px;
+    border-style: solid;
+}
+
+.toggle .button {
+    display: none;
+}
+
+.toggle .button:checked + label {
+    color: var(--secondary);
+    background: var(--primary-light);
+}
+
+.toggle .button:hover + label {
     color: var(--secondary);
     background: var(--primary-light);
     cursor: pointer;
     user-select: none;
 }
-#time{
+
+.button:hover {
+    color: var(--secondary);
+    background: var(--primary-light);
+    cursor: pointer;
+    user-select: none;
+}
+
+#time {
     font-size: 120px;
     font-weight: bold;
 }
-#action{
+
+#action {
     font-size: x-large;
     color: var(--primary-normal);
     font-weight: bold;
 }
-.progress-bar{
+
+.progress-bar {
     width: 70%;
     height: 15px;
     margin: auto;
     background: grey;
 }
-#progress{
+
+#progress {
     background: var(--primary-normal);
     height: 100%;
 }
-#percentage{
+
+#percentage {
     font-size: xx-large;
-} 
-#launch{
+}
+
+#launch {
     color: var(--secondary);
     background: var(--primary-normal);
     display: inline-block;
     margin: 10px 50px;
 }
-#launch:hover{
+
+#launch:hover {
     color: var(--primary-light);
     background: var(--secondary);
     transition: var(--transition-time);
     font-size: x-large;
 
 }
-#error-zone{
+
+#error-zone {
     color: var(--primary-normal);
 }
